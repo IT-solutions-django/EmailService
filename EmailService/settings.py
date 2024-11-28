@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-3h%2=ux$(*^8mu^@06yq!vk@e77x3m529gd)rw5rp&00#px^ft
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -124,15 +124,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = 'var/www/static'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+REDIS_HOST = 'redis' 
 
 # Для локальной разработки
-REDIS_HOST = 'localhost' 
+# REDIS_HOST = 'localhost' 
 
 REDIS_PORT = '6379' 
 REDIS_PASSWORD = os.getenv('REDIS_PASSWORD')
