@@ -46,6 +46,10 @@ def send_email_task(
             )
         self.retry(exc=e, countdown=20)  
     except SMTPException as e:
+        if self.request.retries >= self.max_retries:
+            logger.error(
+                f'Ошибка: {e}. {context_log_info}'
+            )
         self.retry(exc=e, countdown=20) 
     except Exception as e:
         if self.request.retries >= self.max_retries:
