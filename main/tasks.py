@@ -3,11 +3,10 @@ from dotenv import load_dotenv
 from celery import shared_task 
 from smtplib import SMTPException, SMTPAuthenticationError, SMTPConnectError
 from loguru import logger
-import os
+from telegram_sender.tasks import send_telegram_message_for_all_task
 
 
 load_dotenv()
-
 
 
 @shared_task(bind=True, max_retries=3)
@@ -20,7 +19,7 @@ def send_email_task(
     subject: str, 
     content: str, 
 ) -> None:     
-    context_log_info = f'Отправитель: {sender}, получатель: {recipient}. Тема: {subject}'
+    context_log_info = f'\n\nОтправитель: {sender}\nПолучатель: {recipient}\nТема: {subject}'
     try:
         connection = get_connection(
             host=host,
@@ -38,22 +37,30 @@ def send_email_task(
             connection=connection
         )
     except SMTPAuthenticationError as e:
-        logger.error(f'Ошибка авторизации. ')
+        log_text = f'Ошибка авторизации. {context_log_info}'
+        logger.error(log_text)
+        send_telegram_message_for_all_task.delay(message=log_text)
+        return
+
     except SMTPConnectError as e:
         if self.request.retries >= self.max_retries:
-            logger.error(
-                f'Ошибка подключения: {e}. {context_log_info}'
-            )
+            log_text = f'Ошибка подключения: {e}. {context_log_info}'
+            logger.error(log_text)
+            send_telegram_message_for_all_task.delay(message=log_text)
         self.retry(exc=e, countdown=20)  
+
     except SMTPException as e:
         if self.request.retries >= self.max_retries:
-            logger.error(
-                f'Ошибка: {e}. {context_log_info}'
-            )
+            log_text = f'Ошибка: {e}. {context_log_info}'
+            logger.error(log_text)
+            send_telegram_message_for_all_task.delay(message=log_text)
         self.retry(exc=e, countdown=20) 
+        
     except Exception as e:
         if self.request.retries >= self.max_retries:
-            logger.error(f'Непредвиденная ошибка: {e}. {context_log_info}')
+            log_text = f'Непредвиденная ошибка: {e}. {context_log_info}'
+            logger.error(log_text)
+            send_telegram_message_for_all_task.delay(message=log_text)
         raise self.retry(exc=e, countdown=20)
     
     logger.info(f'Письмо было успешно отправлено. {context_log_info}')

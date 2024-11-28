@@ -21,9 +21,13 @@ def update_telegram_chats():
                 Chat.objects.get_or_create(chat_id=message['message']['chat']['id'])
 
 
-def telegram_send_file_for_all(path_to_report: str):
+def send_telegram_message_for_all(message: str) -> None: 
     chats_ids = Chat.objects.all()
-    with open(path_to_report, 'rb') as file:
-        files = {'document': file}
-        for chat_id in chats_ids:
-            requests.post(f'https://api.telegram.org/bot{TELEGRAM_BOT_API_KEY}/sendDocument?chat_id={chat_id}', files=files)
+    for chat in chats_ids:
+        requests.post(
+            f'https://api.telegram.org/bot{TELEGRAM_BOT_API_KEY}/sendMessage',
+            json={
+                'chat_id': chat.chat_id,
+                'text': message,
+            }
+        )
