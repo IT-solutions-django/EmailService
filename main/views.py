@@ -23,24 +23,19 @@ class SendEmailView(View):
                 'status': 'error', 
                 'errors': 'IP-адрес не определён',
             }, status=400)
-        if not IpAddress.objects.filter(ip=ip).exists(): 
+        server_ip = IpAddress.objects.filter(ip=ip).first()
+        if not server_ip: 
             return JsonResponse({
                 'status': 'error', 
                 'errors': f'Неверный IP-адрес: {ip}',
             }, status=403)
 
-        sender = data.get('sender')
-        password = data.get('password')
-        host = data.get('host')
         recipient = data.get('recipient') 
         subject = data.get('subject') 
         content = data.get('content')
 
         errors = validate_email_data(
-            sender=sender, 
-            host=host, 
             recipient=recipient,
-            password=password,
             subject=subject, 
             content=content,
         )
@@ -49,6 +44,10 @@ class SendEmailView(View):
                 'status': 'error', 
                 'errors': errors,
             }, status=400)
+        
+        sender = server_ip.email
+        host = server_ip.host 
+        password = server_ip.password
 
         send_email_task.delay(
             sender=sender, 

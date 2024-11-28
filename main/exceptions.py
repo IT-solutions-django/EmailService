@@ -1,0 +1,2 @@
+class WrongEmailDataError(Exception): 
+    pass

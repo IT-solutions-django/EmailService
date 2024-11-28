@@ -8,36 +8,21 @@ def get_ip(request):
 
 
 def validate_email_data(
-    sender: str, 
-    host: str, 
     recipient: str,
-    password: str,
     subject: str, 
     content: str,    
 ) -> dict[str: str]: 
     errors = {}
-    
-    if not sender: 
-        errors['sender'] = f'Укажите email отправителя: {sender}'
-    else: 
-        try:
-            validate_email(sender)
-        except ValidationError as e: 
-            errors['sender'] = f'Неверный email отправителя: {sender}'
-    if not host: 
-        errors['host'] = 'Укажите host отправителя'
-    if not password: 
-        errors['password'] = 'Укажите пароль отправителя'
     if not recipient: 
-        errors['recipient'] = f'Неверный email получателя: {recipient}'
+        errors['recipient'] = f'Отсутствует email получателя:'
     else: 
         try:
             validate_email(recipient)
         except ValidationError as e: 
             errors['recipient'] = f'Неверный email получателя: {recipient}'
     if not subject: 
-        errors['subject'] = 'Укажите тему письма'
+        errors['subject'] = 'Отсутствует тема письма'
     if not content: 
-        errors['content'] = 'Укажите содержание письма'
+        errors['content'] = 'Отсутствует содержания письма'
 
     return errors
