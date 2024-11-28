@@ -6,4 +6,4 @@ from .models import (
 
 @admin.register(IpAddress)
 class IpAddressAdmin(admin.ModelAdmin): 
-    list_display = ['ip']
+    list_display = ['email', 'ip']
