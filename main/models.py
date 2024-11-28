@@ -1,5 +1,8 @@
 from django.db import models
-
+from smtplib import SMTPException, SMTPAuthenticationError, SMTPConnectError
+from django.core.mail import send_mail, get_connection  
+from loguru import logger
+from .exceptions import WrongEmailDataError
 
 
 class IpAddress(models.Model): 
