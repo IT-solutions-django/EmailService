@@ -11,8 +11,8 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py collectstatic --noinput
 
-celery -A ProZdorovye worker -l info -P prefork &
-celery -A ProZdorovye flower -l info &
-gunicorn ProZdorovye.wsgi:application --bind 0.0.0.0:8000 &
+celery -A EmailService worker -l info -P prefork &
+celery -A EmailService flower -l info &
+gunicorn EmailService.wsgi:application --bind 0.0.0.0:8000 &
 
 wait
