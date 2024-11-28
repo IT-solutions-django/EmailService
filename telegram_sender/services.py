@@ -16,8 +16,9 @@ def update_telegram_chats():
     ).json()
 
     for message in res['result']:
-        if message['message']['text'] == '/start':
-            Chat.objects.get_or_create(chat_id=message['message']['chat']['id'])
+        if message.get('message'):
+            if message['message']['text'] == '/start':
+                Chat.objects.get_or_create(chat_id=message['message']['chat']['id'])
 
 
 def telegram_send_file_for_all(path_to_report: str):
