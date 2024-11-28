@@ -30,6 +30,8 @@ services:
     ports: 
       - "8000:8000"
       - "5555:5555"
+    volumes:
+      - './db:/db'
     depends_on:
       - redis
     env_file:
