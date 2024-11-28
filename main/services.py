@@ -14,15 +14,15 @@ def validate_email_data(
 ) -> dict[str: str]: 
     errors = {}
     if not recipient: 
-        errors['recipient'] = f'Неверный email получателя: {recipient}'
+        errors['recipient'] = f'Отсутствует email получателя:'
     else: 
         try:
             validate_email(recipient)
         except ValidationError as e: 
             errors['recipient'] = f'Неверный email получателя: {recipient}'
     if not subject: 
-        errors['subject'] = 'Укажите тему письма'
+        errors['subject'] = 'Отсутствует тема письма'
     if not content: 
-        errors['content'] = 'Укажите содержание письма'
+        errors['content'] = 'Отсутствует содержания письма'
 
     return errors
