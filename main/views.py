@@ -21,12 +21,12 @@ class SendEmailView(View):
         if not ip: 
             return JsonResponse({
                 'status': 'error', 
-                'errors': 'Укажите IP-адрес',
+                'errors': 'IP-адрес не определён',
             })
         if not IpAddress.objects.filter(ip=ip).exists(): 
             return JsonResponse({
                 'status': 'error', 
-                'errors': 'Неверный IP-адрес',
+                'errors': f'Неверный IP-адрес: {ip}',
             })
 
         sender = data.get('sender')
