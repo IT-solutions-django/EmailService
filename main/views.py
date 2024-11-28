@@ -22,12 +22,12 @@ class SendEmailView(View):
             return JsonResponse({
                 'status': 'error', 
                 'errors': 'IP-адрес не определён',
-            })
+            }, status=400)
         if not IpAddress.objects.filter(ip=ip).exists(): 
             return JsonResponse({
                 'status': 'error', 
                 'errors': f'Неверный IP-адрес: {ip}',
-            })
+            }, status=403)
 
         sender = data.get('sender')
         password = data.get('password')
@@ -48,7 +48,7 @@ class SendEmailView(View):
             return JsonResponse({
                 'status': 'error', 
                 'errors': errors,
-            })
+            }, status=400)
 
         send_email_task.delay(
             sender=sender, 
@@ -61,4 +61,4 @@ class SendEmailView(View):
 
         return JsonResponse({
             'status': 'ok'
-        })
+        }, status=200)
