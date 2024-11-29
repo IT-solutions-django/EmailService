@@ -12,6 +12,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'update_telegram_chats': {
         'task': 'telegram_sender.tasks.update_telegram_chats_task',
-        'schedule': 60 * 10,  
+        'schedule': 60,  
     }
 }
