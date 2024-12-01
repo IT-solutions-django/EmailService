@@ -19,7 +19,7 @@ def send_email_task(
     subject: str, 
     content: str, 
 ) -> None:     
-    context_log_info = f'\n\nОтправитель: {sender}\nПолучатель: {recipient}\nТема: {subject}'
+    context_log_info = f'Отправитель: {sender}, получатель: {recipient}, тема: {subject}'
     try:
         connection = get_connection(
             host=host,
