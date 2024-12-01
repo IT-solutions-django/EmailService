@@ -9,7 +9,7 @@ class IpAddress(models.Model):
     ip = models.GenericIPAddressField('IP') 
     email = models.EmailField('Электронная почта', max_length=100) 
     password = models.CharField('Пароль приложения', max_length=50)
-    host = models.CharField('SMTP-сервер', max_length=100)
+    host = models.CharField('host', max_length=100)
 
     class Meta: 
         verbose_name = 'IP-адрес'
