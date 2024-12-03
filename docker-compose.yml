@@ -18,8 +18,8 @@ services:
     volumes:
       - './nginx.conf:/etc/nginx/nginx.conf'
       - './static:/var/www/static' 
-      - '../etc/letsencrypt/live/sendemail.space/:/etc/ssl/live'
-      - '../etc/letsencrypt/archive/sendemail.space/:/etc/ssl/archive'
+      - '../../etc/letsencrypt/live/sendemail.space/:/etc/ssl/live'
+      - '../../etc/letsencrypt/archive/sendemail.space/:/etc/ssl/archive'
     depends_on:
       - backend 
       - redis
