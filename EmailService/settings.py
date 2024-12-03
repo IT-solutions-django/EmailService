@@ -36,7 +36,7 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://*.90.156.170.136', 
-    'http://*.sendemail.space',
+    'https://*.sendemail.space',
 ]
 
 
