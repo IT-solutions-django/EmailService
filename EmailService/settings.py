@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     'main',
     'telegram_sender',
+    'reviews',
 ]
 
 MIDDLEWARE = [
