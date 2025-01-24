@@ -9,7 +9,7 @@ def get_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
 
-    print(ip)
+    print(x_forwarded_for)
     return ip
 
 
