@@ -8,6 +8,8 @@ def get_ip(request):
         ip = x_forwarded_for.split(',')[-1].strip()
     else:
         ip = request.META.get('REMOTE_ADDR', '')
+
+    print(ip)
     return ip
 
 
