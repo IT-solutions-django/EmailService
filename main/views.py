@@ -17,8 +17,7 @@ class SendEmailView(View):
     def post(self, request): 
         data: QueryDict = request.POST
 
-        ip = get_ip(request)
-        print(ip)
+        ip = data.get(ip)
         if not ip: 
             return JsonResponse({
                 'status': 'error', 
