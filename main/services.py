@@ -3,8 +3,12 @@ from django.core.validators import validate_email
 
 
 def get_ip(request):
-    ip = request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0]
-    return ip or request.META.get('REMOTE_ADDR')
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR', '')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR', '')
+    return ip
 
 
 def validate_email_data(
@@ -23,6 +27,6 @@ def validate_email_data(
     if not subject: 
         errors['subject'] = 'Отсутствует тема письма'
     if not content: 
-        errors['content'] = 'Отсутствует содержания письма'
+        errors['content'] = 'Отсутствует содержание письма'
 
     return errors
