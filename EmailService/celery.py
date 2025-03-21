@@ -13,5 +13,9 @@ app.conf.beat_schedule = {
     'update_telegram_chats': {
         'task': 'telegram_sender.tasks.update_telegram_chats_task',
         'schedule': crontab(hour=0, minute=0),  
+    }, 
+    'check_email_data_correctness': {
+        'task': 'main.tasks.check_email_data_correctness',
+        'schedule': crontab(hour=0, minute=0),  
     }
 }
